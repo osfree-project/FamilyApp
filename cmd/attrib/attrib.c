@@ -18,15 +18,14 @@
 */
 
 #define INCL_DOSERRORS
-#include <osfree.h> /* system header */
+#include <os2.h> /* system header */
 
 /* C standard library headers */
-#include <malloc.h>
 #include <string.h>
 #include <stdio.h>
 #include <ctype.h>
 
-#include <cmd_shared.h> /* comand line tools' shared functions and defines*/
+#include <cmd_shared.h> /* comand line tools' shared functions and defines */
 
 /* characters to be used as parameter specifiers */
 #define PARAM_CHAR1 '/'

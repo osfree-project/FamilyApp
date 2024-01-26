@@ -7,5 +7,5 @@ SET WATCOM=C:\WATCOM
 SET EDPATH=C:\WATCOM\EDDAT
 SET WHTMLHELP=C:\WATCOM\BINNT\HELP
 SET WIPFC=C:\WATCOM\WIPFC
-wcl -fm -lr -ms -0 exehdr.c ..\fapi.lib %watcom%\lib286\os2\os2.lib -I%watcom%\h\os21x
+wcl -bt=os2v1 -fm -lr -ms -0 exehdr.c ..\fapi.lib %watcom%\lib286\os2\os2.lib -I%watcom%\h\os21x
 jwasm -0 -mz fapistub.asm 
