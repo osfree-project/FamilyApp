@@ -9,6 +9,6 @@
 # some of OS/2 executables as dos stubs.
 # SOM target comes before OS2 target because used to build WPS classes
 
-DIRS = tools fapi cmd
+DIRS = tools fapi apps
 
 !include $(%ROOT)tools/mk/all.mk
