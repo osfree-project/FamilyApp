@@ -20,6 +20,7 @@
 /* C standard library headers */
 #include <string.h>
 #include <stdio.h>
+#include <malloc.h>
 
 #include <cmd_shared.h> /* comand line tools' shared functions and defines */
 
@@ -155,6 +156,10 @@ void __cdecl cmd_vShowMessage(PSZ pszFileName,ULONG ulMsgID,ULONG ulParams,va_li
   cmd_prntmsg(argTable,ulParams,ulMsgID,pszFileName);
 
   for (i=0;i<ulParams;i++)
+#ifdef __386__
    free(argTable[i]);
+#else
+   _ffree(argTable[i]);
+#endif
 };
 

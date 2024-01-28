@@ -3,6 +3,6 @@
 # (c) osFree project.
 #
 
-DIRS = shared attrib
+DIRS = shared attrib comp diskcomp diskcopy find more sort xcopy
 
 !include $(%ROOT)tools/mk/all.mk
