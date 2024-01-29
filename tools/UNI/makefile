@@ -13,7 +13,7 @@ SRC = $(MYDIR)
 PLATFORM =
 OS2TKH = $(%ROOT)build$(SEP)bin$(SEP)os2tk45$(SEP)h$(SEP)
 OS2TKINC = $(%ROOT)build$(SEP)bin$(SEP)os2tk45$(SEP)inc$(SEP)
-SRC = $(MYDIR)..$(SEP)..$(SEP)..$(SEP)UNI$(SEP)
+SRC = $(MYDIR)..$(SEP)..$(SEP)UNI$(SEP)
 !endif
 
 DIRS = tools
