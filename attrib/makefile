@@ -3,6 +3,6 @@
 # (c) osFree project.
 #
 
-DIRS = attrib
+DIRS = dos os2 os2v1
 
 !include $(%ROOT)tools/mk/all.mk
