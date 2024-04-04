@@ -13,6 +13,6 @@ STUB     = $(FILESDIR)$(SEP)os2$(SEP)mdos$(SEP)$(PROJ).exe
 ADD_COPT = -i=$(MYDIR)..$(SEP)include
 UNI2H = 0
 
-!include $(%ROOT)tools/mk/appsos2v1.mk
+!include $(%ROOT)tools/mk/appsos2.mk
 
 .c: $(MYPATH)..
