@@ -12,6 +12,7 @@ srcfiles = $(p)attrib$(e)
 STUB     = $(FILESDIR)$(SEP)os2$(SEP)mdos$(SEP)$(PROJ).exe
 ADD_COPT = -i=$(MYDIR)..$(SEP)include
 UNI2H = 0
+STACK = 65500
 
 !include $(%ROOT)tools/mk/appsfapi.mk
 
