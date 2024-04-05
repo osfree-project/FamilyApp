@@ -3,6 +3,6 @@
 # (c) osFree project.
 #
 
-DIRS = attrib
+DIRS = attrib comp
 
 !include $(%ROOT)tools/mk/all.mk
