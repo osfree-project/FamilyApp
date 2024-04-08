@@ -127,7 +127,7 @@ int ProcessCmdParam(char *param,ATTRIB *atr,ATTRIB *filter,OPTIONS *options);
 /*!
   main attrib routine
 
-  @todo add exception handling (ctrl+c/brak) and returning correct rc then
+  @todo add exception handling (ctrl+c/break) and returning correct rc then
 */
 int main (int argc, char* argv[], char* envp[])
 {
