@@ -12,9 +12,6 @@
 /*******************************************************************************
 *   Header Files                                                               *
 *******************************************************************************/
-// Include OS/2 specific files first
-//#define INCL_BASE
-//#include <os2.h>
 
 // stdlib files
 #include <string.h>
@@ -269,11 +266,7 @@ int ProcessFiles(const char *pszFilePattern1, const char *pszFilePattern2)
 int ProcessFile(const char *pszFile1, unsigned long cbFile1, const char *pszFilePattern)
 {
     int             rc = 0;
-	#ifdef __386__
-    FILESTATUS3     fst3;
-	#else
     FILESTATUS      fst3;
-    #endif
     int             cchPattern = strlen(pszFilePattern);
     char            szFile2[CCHMAXPATH];
     char            szPattern[CCHMAXPATH];
@@ -289,11 +282,7 @@ int ProcessFile(const char *pszFile1, unsigned long cbFile1, const char *pszFile
         szPattern[cchPattern++] = '*';
     else
     {
-		#ifdef __386__
-        if (!DosQueryPathInfo((PSZ)pszFilePattern, FIL_STANDARD, &fst3, sizeof(fst3)))
-		#else
-        if (!DosQPathInfo((PSZ)pszFilePattern, FIL_STANDARD, (PBYTE)&fst3, sizeof(fst3), 0))
-		#endif
+        if (!all_QueryPathInfo((PSZ)pszFilePattern, FIL_STANDARD, &fst3, sizeof(fst3)))
         {
             if (fst3.attrFile & FILE_DIRECTORY)
             {
@@ -354,11 +343,7 @@ int ProcessFile(const char *pszFile1, unsigned long cbFile1, const char *pszFile
         /*
          * Check for existance of target.
          */
-		#ifdef __386__
-        rc = DosQueryPathInfo(szFile2, FIL_STANDARD, &fst3, sizeof(fst3));
-		#else
-        rc = DosQPathInfo(szFile2, FIL_STANDARD, (PBYTE)&fst3, sizeof(fst3), 0);
-		#endif
+        rc = all_QueryPathInfo(szFile2, FIL_STANDARD, &fst3, sizeof(fst3));
         if (rc == NO_ERROR && !(fst3.attrFile & FILE_DIRECTORY))
         {
 			#ifdef __386__
