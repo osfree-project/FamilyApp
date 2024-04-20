@@ -542,11 +542,7 @@ int ModifyFileAttribs(char *file,ATTRIB *flags)
  FILESTATUS fileStatus;
  APIRET rc;
 
-#ifdef __386__
- rc=DosQueryPathInfo(file,FIL_STANDARD,&fileStatus,sizeof(fileStatus));
-#else
- rc=DosQPathInfo(file,FIL_STANDARD,(PBYTE)&fileStatus,sizeof(fileStatus),0);
-#endif
+ rc=all_QueryPathInfo(file,FIL_STANDARD,&fileStatus,sizeof(fileStatus));
 
  if (rc) return rc;
 
@@ -564,27 +560,21 @@ int ModifyFileAttribs(char *file,ATTRIB *flags)
   } else {
 
 
- /* modify it's attributes according to flags */
+  /* modify it's attributes according to flags */
 
- /* Hidden */
- MODIFYATTRS(flags->bHidden,FILE_HIDDEN);
+  /* Hidden */
+  MODIFYATTRS(flags->bHidden,FILE_HIDDEN);
 
- /* Archived */
- MODIFYATTRS(flags->bArchived,FILE_ARCHIVED);
+  /* Archived */
+  MODIFYATTRS(flags->bArchived,FILE_ARCHIVED);
 
- /* System */
- MODIFYATTRS(flags->bSystem,FILE_SYSTEM);
+  /* System */
+  MODIFYATTRS(flags->bSystem,FILE_SYSTEM);
 
- /* Readonly */
- MODIFYATTRS(flags->bReadOnly,FILE_READONLY);
+  /* Readonly */
+  MODIFYATTRS(flags->bReadOnly,FILE_READONLY);
 
-#ifdef __386__
- rc=DosSetPathInfo(file,FIL_STANDARD,&fileStatus,sizeof(fileStatus),
-      DSPI_WRTTHRU);
-#else
- rc=DosSetPathInfo(file,FIL_STANDARD,(PBYTE)&fileStatus,sizeof(fileStatus),
-      DSPI_WRTTHRU, 0);
-#endif
+  rc=all_SetPathInfo(file,FIL_STANDARD,&fileStatus,sizeof(fileStatus), DSPI_WRTTHRU);
  }
 
  return rc;
