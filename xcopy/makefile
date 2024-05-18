@@ -1,18 +1,17 @@
 #
-# A Makefile for ATTRIB
+# A Makefile for ANSI
 # (c) osFree project,
+# author, date
 #
 
-PROJ = attrib
+PROJ = xcopy
 TRGT = $(PROJ).exe
-DESC = Changes file attributes
+DESC = eXtended copy tool
 #defines object file names in format $(p)objname$(e)
-srcfiles = $(p)attrib$(e)
+srcfiles = $(p)xcopy$(e) $(p)verbose$(e)
 # defines additional options for C compiler
-STUB     = $(FILESDIR)$(SEP)os2$(SEP)mdos$(SEP)$(PROJ).exe
 ADD_COPT = -i=$(MYDIR)..$(SEP)include
-UNI2H = 0
+STUB=$(FILESDIR)$(SEP)os2$(SEP)mdos$(SEP)$(PROJ).exe
+UNI2H = 1
 
 !include $(%ROOT)tools/mk/appsos2_cmd.mk
-
-.c: $(MYPATH)..

@@ -1,21 +1,17 @@
 #
-# A Makefile for COMP
+# A Makefile for ANSI
 # (c) osFree project,
 # author, date
 #
 
-PROJ = comp
+PROJ = tree
 TRGT = $(PROJ).exe
-DESC = Compare tool
+DESC = Graphical tree display
 #defines object file names in format objname.$(O)
-srcfiles = $(p)comp$(e)
+srcfiles = $(p)tree$(e)
 # defines additional options for C compiler
-# comp.exe doesn't exist for DOS. For now it is comp.com...
-#STUB     = $(FILESDIR)$(SEP)os2$(SEP)mdos$(SEP)$(PROJ).exe
 ADD_COPT = -i=$(MYDIR)..$(SEP)include
-UNI2H = 0
-
+STUB=$(FILESDIR)$(SEP)os2$(SEP)mdos$(SEP)os2stub.exe
+UNI2H = 1
 
 !include $(%ROOT)tools/mk/appsos2_cmd.mk
-
-.c: $(MYPATH)..

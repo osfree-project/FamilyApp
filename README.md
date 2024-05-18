@@ -16,8 +16,14 @@ as well as under 32-bit OS/2
 ## Command line tools
 
   * ATTRIB
+  * BACKUP
   * COMP
+  * DISKCOPY
+  * FC
   * FIND
-  * SORT
   * MORE
+  * RESTORE
+  * SORT
+  * TREE
+  * XCOPY
   * ...
