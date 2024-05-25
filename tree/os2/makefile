@@ -7,7 +7,7 @@
 PROJ = tree
 TRGT = $(PROJ).exe
 DESC = Graphical tree display
-#defines object file names in format objname.$(O)
+#defines object file names in format $(p)objname$(e)
 srcfiles = $(p)tree$(e)
 # defines additional options for C compiler
 ADD_COPT = -i=$(MYDIR)..$(SEP)include

@@ -7,7 +7,7 @@
 PROJ = sort
 TRGT = $(PROJ).exe
 DESC = Sort strings in file
-#defines object file names in format objname.$(O)
+#defines object file names in format $(p)objname$(e)
 srcfiles = $(p)sort$(e) $(p)kitten$(e)
 # defines additional options for C compiler
 ADD_COPT = -i=$(MYDIR) -i=$(MYDIR)..$(SEP)include
