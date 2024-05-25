@@ -8,7 +8,6 @@
 
 #define INCL_BASE
 #define INCL_DOSDEVIOCTL
-//#include <os2.h>
 
 #include <cmd_shared.h>
 
@@ -30,9 +29,13 @@
 /* Note, for the lockdrive/unlockdrive macros, the global variable _lockCmd
 **  must be accessable and set to zero!
 */
+#ifdef __386__
 #define lockdrive(hf)   (_DosError = DosDevIOCtl(hf, IOCTL_DISK, DSK_LOCKDRIVE, &_lockCmd, 0, NULL, NULL, 0L, NULL))
 #define unlockdrive(hf) (_DosError = DosDevIOCtl(hf, IOCTL_DISK, DSK_UNLOCKDRIVE, &_lockCmd, 0, NULL, NULL, 0L, NULL))
-
+#else
+#define lockdrive(hf)   (_DosError = DosDevIOCtl(NULL, &_lockCmd, DSK_LOCKDRIVE, IOCTL_DISK, hf))
+#define unlockdrive(hf) (_DosError = DosDevIOCtl(NULL, &_lockCmd, DSK_UNLOCKDRIVE, IOCTL_DISK, hf))
+#endif
 
 /* --------------------------------------------------------------------------
 ** This structure is used instead of the BIOSPARAMETERBLOCK because the
@@ -68,7 +71,7 @@ ULONG        _fmtData  = 0L;      /* Used with DSK_FORMATVERIFY         */
                                   /*  (kudos to RMK!)                   */
 
 BSPBLK       sourceParms;         /* Param block for source drive       */
-PBYTE        *sourceBuffer;       /* Array of pointers to track buffers */
+PBYTE      * sourceBuffer;        /* Array of pointers to track buffers */
 ULONG        sourceBytes;         /* # bytes on source disk             */
 USHORT       sourceTracks;        /* # tracks on source disk            */
 USHORT       bytesPerTrack;       /* Bytes per track on source disk     */
@@ -83,14 +86,14 @@ BSPBLK       targetParms;         /* Param block for target disk        */
 
 void  copyr(void);
 int   query(char *fmt, ... );
-HFILE opendrive(char *drive);
+HFILE opendrive(char * drive);
 int   readsource(HFILE hf);
 BYTE  fmttbl_bytessec(USHORT bytesPerSec);
 int   writetarget(HFILE hf);
 int   bspblkcmp(BSPBLK *blk1, BSPBLK *blk2);
 void  *Alloc(unsigned num, unsigned size);
 void  errorexit(HFILE hf);
-int   dskcpy_menu(int mlevel, char *drive);
+int   dskcpy_menu(int mlevel, char * drive);
 int   main(int argc, char **argv);
 
 
@@ -125,10 +128,14 @@ int query(char *fmt, ... )
   **       parameter is asciiz drive specifier, i.e., "a:"
   **       returns handle to open drive or 0, sets/clears _DosError
   */
-HFILE opendrive(char *drive)
+HFILE opendrive(char * drive)
   {
   /* USHORT result; */
+#ifdef __386__
   ULONG result;
+#else
+  USHORT result;
+#endif
   HFILE  dHandle;
 
   if ((strlen(drive) != 2) || (drive[1] != ':'))
@@ -171,8 +178,12 @@ HFILE opendrive(char *drive)
   */
 int readsource(HFILE hf)
   {
+#ifdef __386__
   BYTE _parmCmd[2] = {1, 0};
   ULONG _sizeParms, _sizeCmd;
+#else
+  BYTE _parmCmd = 1;
+#endif
   int  trk, hd, cyl;
 
   /* If this isn't the first time here, free memory from last time first */
@@ -193,9 +204,12 @@ int readsource(HFILE hf)
       USHORT APIENTRY DosDevIOCtl(PVOID,PVOID,USHORT,USHORT,HFILE); */
 
   /* Get source disk parameters */
+#ifdef __386__
   _DosError = DosDevIOCtl(hf, IOCTL_DISK, DSK_GETDEVICEPARAMS, &_parmCmd, sizeof(_parmCmd), &_sizeCmd,
                               &sourceParms, sizeof(sourceParms), &_sizeParms);
-  //_DosError = DosDevIOCtl(&sourceParms, &_parmCmd, DSK_GETDEVICEPARAMS, IOCTL_DISK, hf);
+#else
+  _DosError = DosDevIOCtl(&sourceParms, &_parmCmd, DSK_GETDEVICEPARAMS, IOCTL_DISK, hf);
+#endif
   if (!_DosError)
     {
     /* Set all the informational variables and build a track layout table
@@ -244,8 +258,12 @@ int readsource(HFILE hf)
         sourceLayout->usHead = hd;
         if ((sourceBuffer[trk+hd] = (PBYTE)Alloc(bytesPerTrack, sizeof(BYTE))) == NULL)
           errorexit(hf);
+#ifdef __386__
         if (_DosError = DosDevIOCtl(hf, IOCTL_DISK, DSK_READTRACK, sourceLayout, sizeof(sourceLayout), &_sizeCmd,
                                         sourceBuffer[trk+hd], sizeof(sourceBuffer), &_sizeParms))
+#else
+        if (_DosError = DosDevIOCtl(sourceBuffer[trk+hd], sourceLayout, DSK_READTRACK, IOCTL_DISK, hf))
+#endif
           errorexit(hf);
         }
       }
@@ -303,8 +321,12 @@ int writetarget(HFILE hf)
   int          i, trk, hd, cyl, needFormat = FALSE;
 
   /* Get target disk parameters */
+#ifdef __386__
   _DosError = DosDevIOCtl(hf, IOCTL_DISK, DSK_GETDEVICEPARAMS, &_parmCmd, sizeof(_parmCmd), &_sizeCmd,
                               &targetParms, sizeof(targetParms), &_sizeParms);
+#else
+  _DosError = DosDevIOCtl(&targetParms, &_parmCmd, DSK_GETDEVICEPARAMS, IOCTL_DISK, hf);
+#endif
 
   if (_DosError == ERROR_READ_FAULT)
     {
@@ -385,13 +407,21 @@ int writetarget(HFILE hf)
     puts("");
 #endif
 
+#ifdef __386__
           if (_DosError = DosDevIOCtl(hf, IOCTL_DISK, DSK_FORMATVERIFY, trkfmt, sizeof(trkfmt), &_sizeCmd,
                                           &_fmtData, sizeof(_fmtData), &_sizeParms))
-            errorexit(hf);
+#else
+		  if (_DosError = DosDevIOCtl(&_fmtData, trkfmt, DSK_FORMATVERIFY, IOCTL_DISK, hf))
+#endif
+	errorexit(hf);
           }
+#ifdef __386__		  
         if (_DosError = DosDevIOCtl(hf, IOCTL_DISK, DSK_WRITETRACK, sourceLayout, sizeof(sourceLayout), &_sizeCmd,
                                         sourceBuffer[trk+hd], sizeof(sourceBuffer), &_sizeParms))
-          errorexit(hf);
+#else
+		if (_DosError = DosDevIOCtl(sourceBuffer[trk+hd], sourceLayout, DSK_WRITETRACK, IOCTL_DISK, hf))
+#endif
+	errorexit(hf);
         }
       }
 
@@ -474,22 +504,12 @@ void errorexit(HFILE hf)
 
   cmd_ShowSystemMessage(_DosError, 0);
 
-//  puts("");
-//  if ((msgBuf = (PCHAR)calloc(BUFSIZE, sizeof(CHAR))) != NULL)
-//    {
-//    DosGetMessage(NULL, 0, msgBuf, BUFSIZE, _DosError, "oso001.msg", &cbBuf);
-//    fputs(msgBuf, stderr);
-//    free(msgBuf);
-//    }
-//  else
-//    fprintf(stderr, "SYS%04d: error text unavailable\n", _DosError);
-
   if (hf) DosClose(hf);
   fprintf(stderr, "Strike any key to exit..");
   getch();
   fprintf(stderr, "\n");
   DosExit(EXIT_PROCESS, _DosError);
-  }
+}
 
 
 
@@ -498,7 +518,7 @@ void errorexit(HFILE hf)
   **                       drive: asciiz drive specifier, i.e., "a:"
   **       returns READ_SOURCE, COPY_TARGET, or EXIT_DSKCPY
   */
-int dskcpy_menu(int mlevel, char *drive)
+int dskcpy_menu(int mlevel, char * drive)
   {
   int ch;
 
@@ -548,7 +568,7 @@ int dskcpy_menu(int mlevel, char *drive)
 int main(int argc, char **argv)
 {
   HFILE dHandle;
-  char  *drive = "a:";
+  PSZ drive = "a:";
   int   choice;
 
   copyr();
