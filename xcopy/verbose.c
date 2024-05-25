@@ -48,7 +48,7 @@ static char vcid[]="$Id: verbose.c,v 1.1 2003/10/20 13:59:43 prokushev Exp $";
 #include <time.h>
 
 #define INCL_DOS
-#include <os2.h>
+#include <cmd_shared.h>
 
 #include "verbose.h"
 
@@ -71,7 +71,11 @@ Verbose(unsigned level,char *fmt,...)
 	va_list	argp;
 	char	*str = malloc(strlen(fmt)+200);
 	char	*buf = malloc(LOGBUFSIZ);
+#ifdef __386__
 	ULONG	written;
+#else
+	USHORT	written;
+#endif
 	time_t	now = 0;
 	struct tm * timep;
 

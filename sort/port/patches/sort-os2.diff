@@ -1,6 +1,6 @@
-diff -urwN so-x/kitten/kitten.c so-o/kitten/kitten.c
---- so-x/kitten/kitten.c	2023-03-30 15:49:16.570298866 +0300
-+++ so-o/kitten/kitten.c	2023-01-08 21:46:45.741950934 +0300
+diff -urwN sort/kitten/kitten.c newsort/kitten/kitten.c
+--- sort/kitten/kitten.c	Sat May 25 14:20:01 2024
++++ newsort/kitten/kitten.c	Sat May 25 14:18:58 2024
 @@ -24,12 +24,15 @@
  #include <string.h>			/* strchr */
  #include <fcntl.h>
@@ -353,9 +353,9 @@ diff -urwN so-x/kitten/kitten.c so-o/kitten/kitten.c
 -
 -  return 1;
 -}
-diff -urwN so-x/kitten/kitten.h so-o/kitten/kitten.h
---- so-x/kitten/kitten.h	2023-03-30 15:49:16.570298866 +0300
-+++ so-o/kitten/kitten.h	2023-01-08 21:46:45.741950934 +0300
+diff -urwN sort/kitten/kitten.h newsort/kitten/kitten.h
+--- sort/kitten/kitten.h	Sat May 25 14:20:01 2024
++++ newsort/kitten/kitten.h	Sat May 25 14:18:58 2024
 @@ -29,45 +29,32 @@
  
  /* Data types */
@@ -388,23 +388,25 @@ diff -urwN so-x/kitten/kitten.h so-o/kitten/kitten.h
  
 -int kitten_extract_response(const char *s, const char *delimiters,
 -                            char *responses, int num);
--
--#if defined(__TURBOC__)
--int dos_open(char *filename, int mode);
--#define open(filename,mode) dos_open(filename,mode)
 +//int dos_open(char *filename, int mode);
 +//#define open(filename,mode) dos_open(filename,mode)
- 
--int dos_read(int file, void *ptr, unsigned count);
--#define read(file, ptr, count) dos_read(file,ptr,count)
++
 +//int dos_read(int file, void *ptr, unsigned count);
 +//#define read(file, ptr, count) dos_read(file,ptr,count)
- 
--int dos_write(int file, void *ptr, unsigned count);
--#define write(file, ptr, count) dos_write(file,ptr,count)
++
 +//int dos_write(int file, void *ptr, unsigned count);
 +//#define write(file, ptr, count) dos_write(file,ptr,count)
  
+-#if defined(__TURBOC__)
+-int dos_open(char *filename, int mode);
+-#define open(filename,mode) dos_open(filename,mode)
+-
+-int dos_read(int file, void *ptr, unsigned count);
+-#define read(file, ptr, count) dos_read(file,ptr,count)
+-
+-int dos_write(int file, void *ptr, unsigned count);
+-#define write(file, ptr, count) dos_write(file,ptr,count)
+-
 -void dos_close(int file);
 -#define close(file) dos_close(file)
 -#endif
@@ -413,9 +415,9 @@ diff -urwN so-x/kitten/kitten.h so-o/kitten/kitten.h
  
  #ifdef __cplusplus
  }
-diff -urwN so-x/src/sort.c so-o/src/sort.c
---- so-x/src/sort.c	2023-03-30 15:49:13.250226462 +0300
-+++ so-o/src/sort.c	2023-03-30 16:18:59.272335581 +0300
+diff -urwN sort/src/sort.c newsort/src/sort.c
+--- sort/src/sort.c	Sat May 25 14:19:57 2024
++++ newsort/src/sort.c	Sat May 25 14:19:26 2024
 @@ -1,7 +1,7 @@
  /*
  *    SORT - reads line of a file and sorts them in order
@@ -451,7 +453,7 @@ diff -urwN so-x/src/sort.c so-o/src/sort.c
  #define StdIN  0
  #define StdOUT 1
  #define StdERR 2
-@@ -42,24 +34,12 @@
+@@ -42,25 +34,13 @@
  #include <malloc.h>
  #endif
  
@@ -469,18 +471,21 @@ diff -urwN so-x/src/sort.c so-o/src/sort.c
 -        val *= 10;
 -        val += *p - '0';
 -    }
-+#ifdef __OS2__
-+#define INCL_DOSERRORS
-+//#define INCL_VIO
- 
+-
 -    return val;
 -}
 -#define atol(s) minimal_atol(s)
-+#include <osfree.h>             // Include file for osfree
+-#endif
++//#ifdef __OS2__
++#define INCL_DOSERRORS
++//#define INCL_VIO
++
++//#include <osfree.h>             // Include file for osfree
 +#include <cmd_shared.h>         // Include file for cmd tools
- #endif
++//#endif
  
  #ifdef __MSDOS__
+ #include <dos.h> /* intdosx */
 @@ -91,14 +71,6 @@
  Upcase string: 21.6522.ds:dx (string terminated by 0 byte)
  */
@@ -584,9 +589,9 @@ diff -urwN so-x/src/sort.c so-o/src/sort.c
 -    PRINTF(catgets(cat, 0, 3, "    /+num start sorting with column num, 1 based\n"));
 -    PRINTF(catgets(cat, 0, 4, "    /?    help\n"));
 +        WriteString(catgets(cat, 2, 0, "Invalid parameter\r\n"), StdERR);
-+
-+    cmd_ShowSystemMessage(cmd_MSG_SORT_HELP,0);
  
++    cmd_ShowSystemMessage(cmd_MSG_SORT_HELP,0);
++
 +#if 0
 +    WriteString(catgets(cat, 0, 0, "    SORT [/R] [/+num] [/?]\r\n"), StdERR);
 +    WriteString(catgets(cat, 0, 1, "    /R    Reverse order\r\n"), StdERR);

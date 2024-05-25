@@ -7,6 +7,6 @@
 # api is a library for dynamic linking
 # They must come first because all tools here depends on them.
 
-DIRS = fapi attrib comp find diskcopy sort tree xcopy # backup restore
+DIRS = fapi attrib comp diskcopy find sort tree xcopy # backup fc restore
 
 !include $(%ROOT)tools/mk/all.mk

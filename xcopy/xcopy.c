@@ -70,7 +70,7 @@
 #define INCL_DOSERRORS
 #define INCL_DOSFILEMGR
 #define INCL_ERRORS
-#include <os2.h>
+#include <cmd_shared.h>
 
 #include "verbose.h"
 
@@ -281,7 +281,11 @@ CopyFile(char *src,char *dst)
     USHORT      result = 0;                     /* of this function */
     char const * p = NULL;                      /* error description */
 
+#ifdef __386__
         if( (rc=DosCopy(src, dst, (fOverwrite ? DCPY_EXISTING : 0))) )
+#else
+        if( (rc=DosCopy(src, dst, (fOverwrite ? DCPY_EXISTING : 0), 0)) )
+#endif
         {
             Verbose(1,"DosCopy(%s,...) - rc %u", src, rc );
             if( rc == ERROR_ACCESS_DENIED )
@@ -351,9 +355,13 @@ CopyFile(char *src,char *dst)
 int
 CopyTree(char *src,char *dst)
 {
-    FILEFINDBUF3  findBuffer;
+    FILEFINDBUF  findBuffer;
     HDIR         hSearch;
+#ifdef __386__
     ULONG        cFound;
+#else
+    USHORT       cFound;
+#endif
     APIRET       rc;
     int          result = 0, i;
     char        *nsp, *ndp;
@@ -541,10 +549,14 @@ ExpandXList(char *list)
     char                 path[_MAX_PATH];
     char                *pSrcPath, *pFileMask;
     struct skiplistentry_t      *pSkipEntry = pSkipListStart;
-    FILEFINDBUF3         findBuffer;
+    FILEFINDBUF          findBuffer;
     USHORT               rc;
     HDIR                 hSearch;
+#ifdef __386__
     ULONG                cFound;
+#else
+    USHORT               cFound;
+#endif
 
     /* Set pSkipEntry to last Entry in list
      * List should be empty anyway! */
