@@ -18,7 +18,6 @@
 */
 
 #define INCL_DOSERRORS
-#include <osfree.h>
 #include <stdio.h>
 #include <string.h>
 #include <cmd_shared.h>
