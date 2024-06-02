@@ -8,7 +8,7 @@ PROJ = fc
 TRGT = $(PROJ).exe
 DESC = File compare
 #defines object file names in format $(p)objname$(e)
-srcfiles = $(p)fc$(e) $(p)fctools$(e) $(p)kitten$(e) $(p)tnyprntf$(e)
+srcfiles = $(p)fc$(e) $(p)fctools$(e) $(p)kitten$(e) $(p)tnyprntf$(e) $(p)smallcode$(e)
 # defines additional options for C compiler
 ADD_COPT = -ml
 

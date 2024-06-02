@@ -1,5 +1,5 @@
 #
-# A Makefile for ATTRIB
+# A Makefile for FIND
 # (c) osFree project,
 #
 

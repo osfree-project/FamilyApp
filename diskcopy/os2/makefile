@@ -1,5 +1,5 @@
 #
-# A Makefile for ATTRIB
+# A Makefile for DISKCOPY
 # (c) osFree project,
 #
 

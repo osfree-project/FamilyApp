@@ -1,5 +1,5 @@
 #
-# A main Makefile for FamilyApp project
+# A main Makefile for ATTRIB
 # (c) osFree project.
 #
 

@@ -1,5 +1,5 @@
 #
-# A main Makefile for FamilyApp project
+# A main Makefile for COMP
 # (c) osFree project.
 #
 
