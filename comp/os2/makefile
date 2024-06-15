@@ -7,7 +7,7 @@
 PROJ = comp
 TRGT = $(PROJ).exe
 DESC = Compare tool
-#defines object file names in format objname.$(O)
+#defines object file names in format $(p)objname$(e)
 srcfiles = $(p)comp$(e)
 # defines additional options for C compiler
 # comp.exe doesn't exist for DOS. For now it is comp.com...
