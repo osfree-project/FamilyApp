@@ -16,6 +16,6 @@ ADD_COPT = -i=$(MYDIR)..$(SEP)include
 UNI2H = 0
 
 
-!include $(%ROOT)tools/mk/appsos2.mk
+!include $(%ROOT)tools/mk/appsos2_cmd.mk
 
 .c: $(MYPATH)..
