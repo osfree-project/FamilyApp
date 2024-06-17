@@ -13,7 +13,7 @@
    @todo: return code, different when an error is occurinng and option
          that allows to break execution after first error /x ?
    @todo: add support of 4OS2 extensions
-   @todo: add extended attributes support (like .COMMENT, .TYPE)
+   @todo: add extended attributes support (like .COMMENT, .TYPE). See MS-DOS 4.0 ATTRIB sources
    @todo: add "-" modifier to /a switch.
 */
 
@@ -43,10 +43,10 @@
 #define ATR_CHAR_U '_' /*!< Ignore-attrib's character definition  */
 
 /* attribute setting options */
-#define ATR_ACTION_IGN 0 //!< igore attribute (don't change state)
+#define ATR_ACTION_IGN 0 //!< ignore attribute (don't change state)
 #define ATR_ACTION_SET 1 //!< attribute should be set
-#define ATR_ACTION_REM 2 //!< clear
-#define ATR_ACTION_NEG 3 //!< negate
+#define ATR_ACTION_REM 2 //!< clear attribute
+#define ATR_ACTION_NEG 3 //!< negate attribute
 
 /*!
    @brief attributes action structure
