@@ -637,8 +637,9 @@ int RecurseErrorFunction(ULONG rc,void *data)
     case ERROR_FILE_NOT_FOUND: /* 2 */
     case ERROR_PATH_NOT_FOUND: /* 3 */
     case ERROR_SHARING_VIOLATION: /*32 */
-     /*if (!options->bQuiet)*/ cmd_ShowSystemMessage(rc,0L); //@todo fix
+		/*if (!options->bQuiet)*/ cmd_ShowSystemMessage(rc,0L); //@todo fix
      rc=0;
+	 break;
     default:
       /* all other errors go there, and they do break */
      /*if (!options->bQuiet)*/ cmd_ShowSystemMessage(rc,0L); //@todo fix
