@@ -1,3 +1,4 @@
 [submodule "fapi"]
-	path = fapi
-	url = https://github.com/osfree-project/FamilyAPI
+        path = fapi
+        url = https://github.com/osfree-project/FamilyAPI
+        branch = master
