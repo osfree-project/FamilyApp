@@ -13,6 +13,9 @@
 // @todo extend bseerr
 #define MSG_BAD_SYNTAX 1003
 #define MSG_SUBST_LIST 1105
+//#define MSG_REAL_MODE_ONLY ???
+#define PROTECTMODE 1
+int lfn = 0;
 
 /*
 Under  OS/2 VDM we use its JOIN/SUBST logic. 
@@ -168,7 +171,6 @@ void List()
         }
 }
 
-#define PROTECTMODE 1
 //**************************************************************************
 // Start of program
 //**************************************************************************
@@ -189,7 +191,7 @@ int main (int argc, char* argv[], char* envp[])
 	        {
 			syntax();
 		}
-		cmd_ShowSystemMessage(MSG_REAL_MODE_ONLY,0L);
+//		cmd_ShowSystemMessage(MSG_REAL_MODE_ONLY,0L);
 		exit(0);
 	}
 
