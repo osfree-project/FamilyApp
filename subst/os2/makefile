@@ -3,7 +3,7 @@
 # (c) osFree project,
 #
 
-PROJ = attrib
+PROJ = subst
 TRGT = $(PROJ).exe
 DESC = Substitute path to drive letter
 #defines object file names in format $(p)objname$(e)
