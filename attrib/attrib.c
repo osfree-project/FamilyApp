@@ -139,14 +139,13 @@ int main (int argc, char* argv[], char* envp[])
   int iEndArgc=0;
 
   options.bNoUpdateDirs=TRUE;
-
   if (argc<2)
   {
     if (!options.bQuiet) cmd_ShowSystemMessage(MSG_BAD_SYNTAX,0L);
     return 1; //@todo fix
   };
 
-  if ((((argv[1][0]==PARAM_CHAR1) || (argv[1][0]==PARAM_CHAR2)) &&
+   if ((((argv[1][0]==PARAM_CHAR1) || (argv[1][0]==PARAM_CHAR2)) &&
        (argv[1][1]=='?') || ((argv[1][0]==PARAM_CHAR1) && toupper(argv[1][1])=='H'))&& (argv[1][2]=='\0'))
   {
     if (!options.bQuiet) cmd_ShowSystemMessage(cmd_MSG_ATTRIB_HELP,0L);
